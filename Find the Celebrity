@@ -1,0 +1,72 @@
+Noticing the definition of a celebrity is that all other n-1 people know him or her but he/she doesn't know any of them,
+we can conclude two rules from above definition:
+1) for two persons i and j, if i knows j, then i should not be the celebrity;
+2) and if i doesn't know j, j should not be the celebrity;
+
+intuitively, we can start scanning each people by a strategy as following:
+for a people 0, if he knows 1, then 0 should not be the celebrety, and we need not the consider 0 anymore;
+otherwise, if 0 doesn't know 1, we can not tell whether 0 is the celebrity or not, we can further check 
+whether 1 knows 0 or not, if 1 knows 0, then 1 should not be the celebrity, otherwise, if 1 doesn't know 0, 
+neither 0 nor 1 is the celebrity. 
+
+therefore, for each people i, assuming that we have checked people 0..i-1 and we know that people 0..i-1 are not 
+the celebrity, we can check whether i knows i+1, if yes, i is not the celebrity, and we can continue the same 
+strategy from people i+1; if no, we can check from people j=i+1 whether j knows i or not, if we met a people l=j+k, 
+where people l doesn't know i, then we can tell i is not the celebrity and people from i+1 to j+k-1 are also not
+the celebrity because they all knows people i, we can repeat the same stategy from people l;
+
+if we can find the candidate through the above strategy, we can further check whether he or she is a celebrity or not according
+to the definition of celebrity; if we can not find a candidate, then there is not celebrity exists.
+
+// Forward declaration of the knows API.
+bool knows(int a, int b);
+
+class Solution {
+public:
+    int findCelebrity(int n) {
+        int i=0;
+        bool stop = false;
+        int candidate = -1;
+        while((i < n)&&(!stop)){
+            while(((i+1) < n)&&(knows(i, i+1))){
+                i++;
+            }
+            
+            if(i == (n-1)){
+                candidate = i;
+                stop = true;
+            } else {
+                int j = i+1;
+                while((j < n)&&(knows(j, i))){
+                    j++;
+                }
+                if(j == n){
+                    candidate = i;
+                    stop = true;
+                } else {
+                    if(j == (i+1)){
+                        i = j + 1;
+                    } else {
+                        i = j;
+                    }
+                }
+            }
+        }
+        
+        if(candidate == -1){
+            return -1;
+        }
+        
+        i = 0;
+        while(i < n){
+            if(i != candidate){
+                if((!knows(i, candidate))||(knows(candidate, i))){
+                    return -1;
+                } 
+            }
+            i++;
+        }
+        
+        return candidate;
+    }
+};
