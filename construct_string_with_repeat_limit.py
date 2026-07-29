@@ -1,11 +1,11 @@
-Solution 1 main idea:
-Greedy: 
-every time get as many as possible the largest character, 
-so if there are still largest characters left, 
-we will need to move forward to find one next largest char to avoid exceeding repeatlimit
-if we can't find one, it should stop and return; if yes, append one second largest char;
+# Solution 1 main idea:
+# Greedy: 
+# every time get as many as possible the largest character, 
+# so if there are still largest characters left, 
+# we will need to move forward to find one next largest char to avoid exceeding repeatlimit
+# if we can't find one, it should stop and return; if yes, append one second largest char;
 
-And repeat 
+# And repeat 
 
 
 class Solution:
