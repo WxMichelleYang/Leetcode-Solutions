@@ -4,6 +4,7 @@
 
 # Part 2:
 # Same array, but now find, for every person in the line, how many people they can see.
+# to do: fix problems with duplicate height
 
 from typing import List
 class Solution:
@@ -12,7 +13,7 @@ class Solution:
         ret = [0] * n
         stack = []
         for i in range(n):
-            while len(stack) > 0 and heights[stack[-1]] < heights[i]:
+            while stack and heights[stack[-1]] < heights[i]:
                 stack.pop()
 
             if len(stack) == 0:
@@ -24,7 +25,8 @@ class Solution:
         
 
 
-test_heights = [1, 10, 6, 7, 9, 8, 2, 4, 3, 5]
+# test_heights = [1, 10, 6, 7, 9, 8, 2, 4, 3, 5]
+test_heights = [9,5,7,7]
 s = Solution()
 result  = s.solve(test_heights)
 print(test_heights)
