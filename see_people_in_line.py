@@ -11,15 +11,25 @@ class Solution:
     def solve(self, heights: List[int]) -> List[int]:
         n = len(heights)
         ret = [0] * n
+        countLarger = [0] * n
+        indexLarger = [-1] * n
         stack = []
         for i in range(n):
             while stack and heights[stack[-1]] < heights[i]:
                 stack.pop()
 
             if len(stack) == 0:
+                countLarger[i] = 0
                 ret[i] = i 
             else:
-                ret[i] = len(stack) + i-stack[-1]-1
+                if heights[i] == heights[stack[-1]]:
+                    countLarger[i] = countLarger[stack[-1]]
+                    indexLarger[i] = indexLarger[stack[-1]]
+                    ret[i] = countLarger[i] + i - indexLarger[i] - 1
+                else:
+                    countLarger[i] = len(stack)
+                    indexLarger[i] = stack[-1]
+                    ret[i] = len(stack) + i-stack[-1]-1
             stack.append(i)
         return ret
         
